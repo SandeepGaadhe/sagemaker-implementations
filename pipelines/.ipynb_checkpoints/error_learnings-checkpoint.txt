@@ -1,0 +1,24 @@
+################################################################################################
+
+Error : When retreiving existing model and then deploying it using model.deploy was returning NoneType
+
+Solution : 
+
+1. Include from sagemaker.predictor import Predictor while creating the model
+
+trained_model = Model(
+    image_uri=base_image,
+    model_data=trained_model_artifact,
+    role=role,
+    name=model_name,
+    predictor_cls=Predictor # this parameter was added to avoid the mentioned error.
+    )
+    
+2. Model.deploy returns None
+
+Returns
+Invocation of
+self.predictor_cls on the created endpoint name, if self.predictor_cls is not None. Otherwise, return None.
+https://sagemaker.readthedocs.io/en/stable/api/inference/model.html
+
+################################################################################################
